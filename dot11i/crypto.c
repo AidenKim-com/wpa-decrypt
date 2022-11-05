@@ -545,12 +545,34 @@ int calc_ptk(struct WPA_ST_info * wpa, unsigned char pmk[static 32])
 		memcpy(pke + 35, wpa->anonce, 32);
 		memcpy(pke + 67, wpa->snonce, 32);
 	}
+	printf("pke : %s\n", pke);
+	puts("[1]");
+	for(int h=0;h<100;h++)
+		printf("\\x%02x", pke[h]);
+	puts("");
 
 	for (i = 0; i < 4; i++)
 	{
 		pke[99] = (uint8_t) i;
 		MAC_HMAC_SHA1(32, pmk, 100, pke, wpa->ptk + i * DIGEST_SHA1_MAC_LEN);
 	}
+
+	puts("[2]");
+	for(int h=0;h<100;h++)
+		printf("\\x%02x", pke[h]);
+	puts("");
+
+	for (i = 0; i < 4; i++)
+	{
+		pke[99] = (uint8_t) i;
+		MAC_HMAC_SHA1(32, pmk, 100, pke, wpa->ptk + i * DIGEST_SHA1_MAC_LEN);
+	}
+
+	puts("[3]");
+	for(int h=0;h<100;h++)
+		printf("\\x%02x", pke[h]);
+	puts("");
+
 
 	/* check the EAPOL frame MIC */
 
